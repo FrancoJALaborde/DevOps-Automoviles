@@ -1,14 +1,10 @@
-<h1 align="center">Proyecto de Aprendizaje Automático para Clasificación y Regresión de Precios de Automóviles</h1>
 
-<h2>Descripción del Proyecto</h2>
+<h1 align="center">Machine Learning Project for Classification and Regression of Car Prices</h1>
+<h2>Project Description</h2>
+This project aims to apply machine learning techniques to classify and predict car prices. It utilizes a dataset of cars that includes various vehicle features such as engine size, horsepower, body type, among others.
 
-Este proyecto tiene como objetivo aplicar técnicas de aprendizaje automático para clasificar y predecir los precios de los automóviles. Se utiliza un conjunto de datos de automóviles que incluye diversas características de los vehículos, como el tamaño del motor, la potencia, el tipo de carrocería, entre otros.
-
-<h2>Código y Funcionalidades</h2>
-
-El código proporcionado realiza las siguientes tareas:
-
-python
+<h2>Code and Functionality</h2>
+The provided code performs the following tasks:
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -17,52 +13,50 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.metrics import accuracy_score, mean_squared_error
 
-# Cargar datos
+# Load data
 data = pd.read_csv('M6\Proyecto Integrador\Propuesta 2\ML_cars.csv')
 
-# Limpieza de datos
-data = data.drop(['car_ID', 'symboling', 'CarName'], axis=1) # Eliminar columnas innecesarias
-data = pd.get_dummies(data, drop_first=True) # Codificar variables categóricas
+# Data cleaning
+data = data.drop(['car_ID', 'symboling', 'CarName'], axis=1) # Remove unnecessary columns
+data = pd.get_dummies(data, drop_first=True) # Encode categorical variables
 
-# Crear variable objetivo para la clasificación (alta o baja)
-data['price_class'] = data['price'].apply(lambda x: 'alta' if x > data['price'].median() else 'baja')
+# Create target variable for classification (high or low)
+data['price_class'] = data['price'].apply(lambda x: 'high' if x > data['price'].median() else 'low')
 
-# Separar datos en conjuntos de entrenamiento y prueba
+# Split data into training and test sets
 X = data.drop(['price', 'price_class'], axis=1)
 y_class = data['price_class']
 y_reg = data['price']
 X_train, X_test, y_class_train, y_class_test, y_reg_train, y_reg_test = train_test_split(X, y_class, y_reg, test_size=0.2, random_state=0)
 
-# Entrenar modelo de clasificación
+# Train classification model
 clf = DecisionTreeClassifier(random_state=0)
 clf.fit(X_train, y_class_train)
 y_class_pred = clf.predict(X_test)
 
-# Evaluar modelo de clasificación
+# Evaluate classification model
 accuracy = accuracy_score(y_class_test, y_class_pred)
 print(f'Accuracy: {accuracy}')
 
-# Entrenar modelo de regresión
+# Train regression model
 reg = DecisionTreeRegressor(random_state=0)
 reg.fit(X_train, y_reg_train)
 y_reg_pred = reg.predict(X_test)
 
-# Evaluar modelo de regresión
+# Evaluate regression model
 mse = mean_squared_error(y_reg_test, y_reg_pred)
 print(f'MSE: {mse}')
 
-# Resto del código de visualización de resultados y gráficos
-El código se encarga de cargar y preprocesar los datos, crear una variable objetivo para la clasificación, separar los datos en conjuntos de entrenamiento y prueba, entrenar modelos de clasificación y regresión utilizando árboles de decisión, evaluar los modelos y visualizar los resultados mediante gráficos y métricas.
+# Remaining code for result visualization and plots
+The code handles data loading and preprocessing, creates a target variable for classification, splits the data into training and test sets, trains classification and regression models using decision trees, evaluates the models, and visualizes the results through plots and metrics.
 
-<h2>Requisitos</h2>
-Para ejecutar este código, se requiere tener instaladas las siguientes bibliotecas de Python:
-
+<h2>Requirements</h2>
+To execute this code, the following Python libraries need to be installed:
 pandas
 matplotlib
 seaborn
 scikit-learn
-
-<h2>Instrucciones de Uso</h2>
-Descarga el archivo CSV con los datos de los automóviles y asegúrate de que esté en la misma ubicación que el archivo de código.
-Ejecuta el código en un entorno de Python.
-Observa los resultados de los modelos de clasificación y regresión, así como los gráficos generados.
+<h2>Usage Instructions</h2>
+1. Download the CSV file with the car data and ensure it is in the same location as the code file.
+2. Run the code in a Python environment.
+3. Observe the results of the classification and regression models, as well as the generated plots.
